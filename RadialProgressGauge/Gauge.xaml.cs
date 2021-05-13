@@ -21,11 +21,11 @@ namespace RadialProgress
         public static readonly BindableProperty HasAnimationProperty =
             BindableProperty.Create("HasAnimation", typeof(bool), typeof(Gauge), false);
         public static readonly BindableProperty FromColorProperty =
-            BindableProperty.Create("FromColor", typeof(System.Drawing.Color), typeof(Gauge), System.Drawing.Color.Red);
+            BindableProperty.Create("FromColor", typeof(Color), typeof(Gauge), Color.Red);
         public static readonly BindableProperty ToColorProperty =
-            BindableProperty.Create("ToColor", typeof(System.Drawing.Color), typeof(Gauge), System.Drawing.Color.Green);
+            BindableProperty.Create("ToColor", typeof(Color), typeof(Gauge), Color.Green);
         public static readonly BindableProperty ViaColorProperty =
-            BindableProperty.Create("ViaColor", typeof(System.Drawing.Color), typeof(Gauge), System.Drawing.Color.Gold);
+            BindableProperty.Create("ViaColor", typeof(Color), typeof(Gauge), Color.Gold);
         public static readonly BindableProperty EmptyFillColorProperty =
             BindableProperty.Create("EmptyFillColor", typeof(Color), typeof(Gauge), Color.FromHex("#e0dfdf"));
         public static readonly BindableProperty TextColorProperty =
@@ -56,21 +56,21 @@ namespace RadialProgress
             set => SetValue(MaxValueProperty, value);
         }
 
-        public System.Drawing.Color FromColor
+        public Color FromColor
         {
-            get => (System.Drawing.Color)GetValue(FromColorProperty);
+            get => (Color)GetValue(FromColorProperty);
             set => SetValue(FromColorProperty, value);
         }
 
-        public System.Drawing.Color ToColor
+        public Color ToColor
         {
-            get => (System.Drawing.Color)GetValue(ToColorProperty);
+            get => (Color)GetValue(ToColorProperty);
             set => SetValue(ToColorProperty, value);
         }
 
-        public System.Drawing.Color ViaColor
+        public Color ViaColor
         {
-            get => (System.Drawing.Color)GetValue(ViaColorProperty);
+            get => (Color)GetValue(ViaColorProperty);
             set => SetValue(ViaColorProperty, value);
         }
 
@@ -214,13 +214,14 @@ namespace RadialProgress
                 };
 
                 double pct = (double)CurrentValue / MaxValue;
-                System.Drawing.Color interpolated = ColorInterpolator.InterpolateBetween(FromColor, ToColor, ViaColor, pct);
-
+                var interpolated = ColorInterpolator.InterpolateBetween(FromColor, ToColor, ViaColor, pct);
+                
                 // Filled Gauge Styling
                 SKPaint paint2 = new SKPaint
                 {
                     Style = SKPaintStyle.Stroke,
-                    Color = new SKColor(interpolated.R, interpolated.G, interpolated.B),
+                    
+                    Color = interpolated.ToSKColor(),
                     StrokeWidth = progressUtils.getFactoredWidth(radialGaugeWidth),
                     StrokeCap = SKStrokeCap.Round
                 };

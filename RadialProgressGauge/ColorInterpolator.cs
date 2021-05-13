@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Drawing;
+using Xamarin.Forms;
+
 namespace RadialProgress
 {
     internal class ColorInterpolator
     {
-        delegate byte ComponentSelector(Color color);
+        delegate double ComponentSelector(Color color);
         static ComponentSelector _redSelector = color => color.R;
         static ComponentSelector _greenSelector = color => color.G;
         static ComponentSelector _blueSelector = color => color.B;
@@ -19,7 +19,7 @@ namespace RadialProgress
             {
                 throw new ArgumentOutOfRangeException(nameof(percent));
             }
-            Color color = Color.FromArgb(
+            var color = new Color(
                 InterpolateComponent(from, to, percent, _redSelector),
                 InterpolateComponent(from, to, percent, _greenSelector),
                 InterpolateComponent(from, to, percent, _blueSelector)
@@ -42,7 +42,8 @@ namespace RadialProgress
             if(percent <= 0.5)
             {
                 color = InterpolateBetween(from, via, percent * 2);
-            } else if(percent <= 1 && percent >= 0.5)
+            }
+            else 
             {
                 color = InterpolateBetween(via, to, (percent * 2) - 1);
             }
@@ -50,13 +51,13 @@ namespace RadialProgress
             return color;
         }
 
-        static byte InterpolateComponent(
+        static double InterpolateComponent(
             Color endPoint1,
             Color endPoint2,
             double percent,
             ComponentSelector selector)
         {
-            return (byte)(selector(endPoint1) + (selector(endPoint2) - selector(endPoint1)) * percent);
+            return (double)(selector(endPoint1) + (selector(endPoint2) - selector(endPoint1)) * percent);
         }
     }
 }
