@@ -1,6 +1,5 @@
-# ItamarD.Xamarin.Forms.RadialProgress
 
-Radial Progress Indicator in Xamarin Forms based on @KPS250's component, NuGet package.
+Radial Gauge Indicator in Xamarin Forms based on ItamarD.Xamarin.Forms.RadialProgress's component, NuGet package.
 
 ![Banner](https://github.com/KPS25/RadialProgress/blob/master/Screenshot_Banner.jpg)
 
